@@ -68,3 +68,101 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+####################################
+####################################
+
+####################################
+
+####################################
+npm start
+
+######
+firebase login
+firebase init
+
+####
+
+npm run build
+firebase deploy
+
+
+###
+
+Project Console: https://console.firebase.google.com/project/organic-d9a56/overview
+Hosting URL: https://organic-d9a56.web.app
+
+
+
+##
+alernate opetion deploy
+####
+npm install -g vercel
+vercel login
+
+#####
+
+vercel
+
+######
+
+https://vercel.com/organics-projects-69471cb4/organic-store/CQebAfStCLSa8Fke6vKa4Y32E6jZ [6s]
+✅  Preview: https://organic-store-gk2p8u1en-organics-projects-69471cb4.vercel.app
+
+
+
+#######
+
+Setup
+curl -sL https://firebase.tools | bash
+firebase login        
+firebase projects:list
+npm run build
+
+
+If it's set to "public", change it to "build", like this:
+
+{
+  "hosting": {
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+  }
+}
+
+
+firebase deploy
+
+# Check Your Firebase Hosting Files
+firebase hosting:channel:list
+┌────────────┬─────────────────────┬───────────────────────────────┬─────────────┐
+│ Channel ID │ Last Release Time   │ URL                           │ Expire Time │
+├────────────┼─────────────────────┼───────────────────────────────┼─────────────┤
+│ live       │ 2025-02-21 08:15:13 │ https://organic-d9a56.web.app │ never       │
+└────────────┴─────────────────────┴───────────────────────────────┴─────────────┘
+
+
+# Check Firebase Deployment
+firebase deploy --only hosting
+
+## Delete and Reinitialize Firebase
+
+firebase init hosting
+firebase deploy
+
+#########################
+
+
+
+
+########
+######
+
+npm run build
+firebase deploy
+Once deployed, check the provided Firebase Hosting URL.
+
+
+
+#####

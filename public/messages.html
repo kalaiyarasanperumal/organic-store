@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalai's Inbox</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/inbox-email-icon-white_116137-5901.avif" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Kalai's Inbox</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="selected"><a href="messages.html">Messages</a></li>
+                    <!-- Add other navigation links if needed -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="background">
+        <div class="container" id="message-list">
+            <!-- Table to display messages -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Messages will be appended here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <li><a href="KHgfcgc.html">KHgv site</a></li> 
+
+
+    <section id="contact" class="section">
+        <!-- <h2>Contact Us</h2> -->
+        <!-- <p><strong>Address:</strong> Harur, Dharmapuri, TamilNadu 636903</p>
+        <p><strong>Phone:</strong> +91-9342424899</p>
+        <p><strong>Email:</strong> kalaimail6@gmail.com</p> -->
+        <div class="button-container">
+            <a href="https://medium.com/@kalaiyarasan61097">
+                <img src="images/Blog_pic-1030x584.png" class="button" alt="Blog" width="45" height="25">
+            </a>
+            <a href="https://github.com/kalaiyarasanperumal">
+                <img src="images/imageGitHub.png" class="button" alt="github" width="45" height="25">
+            </a>
+            <a href="https://www.linkedin.com/in/kalaiyarasan-perumal-9aba40279/">
+                <img src="images/linkinedin.png" class="button" alt="LinkedIn" width="45" height="25">
+            </a>
+            <a href="https://wa.me/9342424899">
+                <img src="images/WhatsApp.svg.webp" alt="WhatsApp" class="button" width="45" height="25">
+            </a>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container">
+            <p>&copy; Copyright ©️ 2024 | Kalaiyarsan Perumal. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch messages and append them to message-list div
+            function fetchMessages() {
+                $.get('/get-messages', function(messages) {
+                    $('#message-list tbody').empty(); // Clear previous messages
+                    messages.forEach(function(message) {
+                        // Append each message as a row in the table
+                        $('#message-list tbody').append('<tr><td>' + message.name + '</td><td>' + message.content + '</td></tr>');
+                    });
+                });
+            }
+
+            // Call fetchMessages function when the page loads
+            fetchMessages();
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>

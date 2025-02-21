@@ -1,89 +1,164 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="en">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.3.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.3.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/11.3.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Kalai's Website</title>
+    <link rel="icon" href="images/TabLogo.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        $(document).ready(function () {
+            // Function to fetch messages and append them to chat-messages div
+            function fetchMessages() {
+                $.get('/get-messages', function (messages) {
+                    $('#chat-messages').empty(); // Clear previous messages
+                    messages.forEach(function (message) {
+                        $('#chat-messages').append('<div class="message">' + message.content + '</div>');
+                    });
+                });
+            }
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
+            // Call fetchMessages function when the page loads
+            fetchMessages();
+
+            // Function to send message
+            function sendMessage() {
+                var message = $('#user-input').val();
+                $.post('/store-message', { message: message }, function () {
+                    fetchMessages(); // After sending message, fetch and display updated messages
+                    $('#send-feedback').text('Message sent successfully!'); // Update send feedback message
+                    $('#green-banner').fadeIn(); // Show green banner
+                    setTimeout(function () {
+                        $('#send-feedback').text(''); // Clear send feedback message after a delay
+                        $('#green-banner').fadeOut(); // Hide green banner after a delay
+                    }, 3000); // Adjust the delay (in milliseconds) as needed
+                });
+                $('#user-input').val(''); // Clear input field after sending
+            }
+
+            // Click event listener for send button
+            $('#send-btn').click(function (event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+                sendMessage(); // Call sendMessage function
+            });
+
+            // Keypress event listener for input field
+            $('#user-input').keypress(function (event) {
+                if (event.which == 13) { // Enter key pressed
+                    event.preventDefault(); // Prevent the default form submission behavior
+                    sendMessage(); // Call sendMessage function
+                }
+            });
+        });
     </script>
-  </body>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <img src="images/apple.avif" alt="Your Logo" class="logo">
+            <h1>Kalai's Website</h1>
+            <nav>
+                <ul>
+                    <li class="selected"><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+
+                    <!-- <span class="icon"><i class="fas fa-bell"></i></span>
+                    <span class="text">Kalai's Inbox</span>
+                    <span class="notification-count">3</span> -->
+
+                    <!-- <li class="button-li">
+                        <a href="tel:9342424899">
+                            <span class="phone-number">+91-9342424899</span>
+                        </a>
+                    </li> -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="background">
+        <div class="container">
+            <div class="chat-container">
+                <div id="chat-messages"></div> <!-- This div will display chat messages -->
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <!-- Input field for user's message -->
+                <button id="send-btn">Send</button> <!-- Button to send the message -->
+                <script>
+                    document.getElementById("send-btn").addEventListener("click", function(event) {
+                        event.preventDefault(); // Prevents form from submitting normally
+                        
+                        var message = document.getElementById("user-input").value.trim(); // Get message input
+                        var phoneNumber = "919342424899"; // Replace with your WhatsApp number (including country code)
+                        
+                        if (message) {
+                            var whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+                            window.open(whatsappURL, "_blank"); // Opens WhatsApp in a new tab
+                        } else {
+                            alert("Please enter a message before sending!"); // Alert if no message entered
+                        }
+                        
+                        document.getElementById("user-input").value = ""; // Clear input after sending
+                    });
+                </script>
+                
+                <div id="send-feedback" class="send-feedback"></div>
+                <!-- Element to display feedback after sending a message -->
+            </div>
+        </div>
+        <!-- <div id="green-banner" class="green-banner" style="display:none;">Message sent successfully!</div> Green banner element for displaying success message -->
+        <li><a href="car.html">Dream Car</a></li>
+        <!-- <li><a href="messages.html">Kalai's Inbox</a></li>
+        <li><a href="test.html">test site</a></li>
+        <li><a href="KalaiPortfolio.html">Kalaiyarasan Portfolio</a></li> -->
+
+
+        
+
+
+
+
+    </section>
+
+
+    <section id="social-media" class="section">
+        <!-- <h2>Contact Us</h2> -->
+        <!-- <p><strong>Address:</strong> Harur, Dharmapuri, TamilNadu 636903</p>
+        <p><strong>Phone:</strong> +91-9342424899</p>
+        <p><strong>Email:</strong> kalaimail6@gmail.com</p> -->
+        <div class="button-container">
+            <a href="https://medium.com/@kalaiyarasan61097">
+                <img src="images/Blog_pic-1030x584.png" class="button" alt="Blog" width="45" height="25">
+            </a>
+            <a href="https://github.com/kalaiyarasanperumal">
+                <img src="images/imageGitHub.png" class="button" alt="github" width="45" height="25">
+            </a>
+            <a href="https://www.linkedin.com/in/kalaiyarasan-perumal-9aba40279/">
+                <img src="images/linkinedin.png" class="button" alt="LinkedIn" width="45" height="25">
+            </a>
+            <a href="https://wa.me/9342424899">
+                <img src="images/WhatsApp.svg.webp" alt="WhatsApp" class="button" width="45" height="25">
+            </a>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+    <footer>
+        <div class="container">
+            <p>&copy; Copyright ©️ 2024 | Kalaiyarsan Perumal. All Rights Reserved..</p>
+        </div>
+    </footer>
+</body>
+
 </html>
